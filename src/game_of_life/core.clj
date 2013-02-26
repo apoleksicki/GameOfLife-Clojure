@@ -21,6 +21,8 @@
   (reduce (fn [x y] (.concat(.concat x "\n") y))
           (map generate-row-string to-print)))
 
+
+
 (defn create-frame [title size-x size-y]
   (doto(new javax.swing.JFrame)
     (.setSize size-x size-y)
@@ -30,11 +32,10 @@
    (new javax.swing.JPanel layout-manager true))
 
 (defn create-gof-frame [text-area]
-  (let [frame (create-frame "Game of life" 200 200)]
-    (.add frame    
-          (doto (create-panel (new java.awt.BorderLayout))
-            (.add text-area (. java.awt.BorderLayout CENTER))
-            (.add (new javax.swing.JButton "Start") (. java.awt.BorderLayout SOUTH))))
-    frame))
+  (doto (create-frame "Game of life" 200 200)
+    (.add 
+      (doto (create-panel (new java.awt.BorderLayout))
+        (.add text-area (. java.awt.BorderLayout CENTER))
+        (.add (new javax.swing.JButton "Start") (. java.awt.BorderLayout SOUTH))))))
 
 (def frame (create-gof-frame pres-area))
