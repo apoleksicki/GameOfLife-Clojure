@@ -12,29 +12,29 @@
 (defn create-2d-vec [size-x size-y]
   (vec (repeat size-y (vec (for [x (range size-x)] x)))))
 
-(defn print-2d-vector [to-print]
-  (reduce (fn [x y] (.concat(.concat x "\n") y))
-          (map generate-row-string to-print)))
-
 (defn generate-row-string [to-print]
   (reduce (fn [x y] (.concat x y))
           (map  (fn [x] (.concat (.toString x) " ")) 
                to-print)))
 
+(defn print-2d-vector [to-print]
+  (reduce (fn [x y] (.concat(.concat x "\n") y))
+          (map generate-row-string to-print)))
+
 (defn create-frame [title size-x size-y]
-  (let [frame (new javax.swing.JFrame)]
-    (.setSize frame size-x size-y)
-    (.setTitle frame title)
-    frame))
+  (doto(new javax.swing.JFrame)
+    (.setSize size-x size-y)
+    (.setTitle title)))
   
 (defn create-panel [layout-manager]
    (new javax.swing.JPanel layout-manager true))
 
 (defn create-gof-frame [text-area]
-  (let [frame (create-frame "Game of life" 200 200)
-        panel (create-panel (new java.awt.BorderLayout))]
-    (.add panel text-area (. java.awt.BorderLayout CENTER))
-    (.add panel (new javax.swing.JButton "Start") (. java.awt.BorderLayout SOUTH))
-    (.add frame panel)
+  (let [frame (create-frame "Game of life" 200 200)]
+    (.add frame    
+          (doto (create-panel (new java.awt.BorderLayout))
+            (.add text-area (. java.awt.BorderLayout CENTER))
+            (.add (new javax.swing.JButton "Start") (. java.awt.BorderLayout SOUTH))))
     frame))
-  
+
+(def frame (create-gof-frame pres-area))
