@@ -31,11 +31,23 @@
 (defn create-panel [layout-manager]
    (new javax.swing.JPanel layout-manager true))
 
+(defmacro on-action [component event & body]
+  `(. ~component addActionListener
+      (proxy [java.awt.event.ActionListener] []
+        (actionPerformed [~event] ~@body))))
+
+(defn create-start-button []
+  (doto (new javax.swing.JButton "Start")
+    (on-action event
+               (.append pres-area "foo"))))
+
+      
+ 
 (defn create-gof-frame [text-area]
   (doto (create-frame "Game of life" 200 200)
     (.add 
       (doto (create-panel (new java.awt.BorderLayout))
         (.add text-area (. java.awt.BorderLayout CENTER))
-        (.add (new javax.swing.JButton "Start") (. java.awt.BorderLayout SOUTH))))))
+        (.add (create-start-button) (. java.awt.BorderLayout SOUTH))))))
 
 (def frame (create-gof-frame pres-area))
