@@ -21,8 +21,6 @@
   (reduce (fn [x y] (.concat(.concat x "\n") y))
           (map generate-row-string to-print)))
 
-
-
 (defn create-frame [title size-x size-y]
   (doto(new javax.swing.JFrame)
     (.setSize size-x size-y)
