@@ -2,6 +2,7 @@
   (:use clojure.core clojure.repl))
 
 (def pres-area (new javax.swing.JTextArea))
+(def neighbors [[-1 -1] ])
 
 (defn set-text [text]
   (.setText pres-area text))
@@ -10,11 +11,14 @@
   (vec (for [x (range size-x) y (range size-y)] 0)))
 
 (defn create-2d-vec [size-x size-y]
-  (vec (repeat size-y (vec (for [x (range size-x)] x)))))
+  (vec (repeat size-y (vec (for [x (range size-x)] :dead)))))
 
 (defn generate-row-string [to-print]
   (reduce (fn [x y] (.concat x y))
-          (map  (fn [x] (.concat (.toString x) " ")) 
+          (map  (fn [x] (.concat 
+                          (if (= :dead x)
+                            "_"
+                            "*" " ")) 
                to-print)))
 
 (defn print-2d-vector [to-print]
@@ -49,3 +53,17 @@
         (.add (create-start-button) (. java.awt.BorderLayout SOUTH))))))
 
 (def frame (create-gof-frame pres-area))
+
+(defn count-alive-neighbors [board x y])
+  
+(defn one-if-alive [cell]
+  (if (= :alive cell)
+    1
+    0)) 
+ 
+(defn find-neighbor-indices [cell-x cell-y]
+  (for [x [-1 0 1] y [-1 0 1]:when  (not (= x y))] 
+    [(+ cell-x x)  (+ cell-y y)]))
+  
+ (defn count-alive-neighbors [cell-x cell-y board]
+   (map 
