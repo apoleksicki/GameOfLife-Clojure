@@ -1,5 +1,5 @@
 (ns game-of-life.core
-  (:use clojure.core clojure.repl))
+  (:use clojure.core clojure.repl ))
 
 (def pres-area (new javax.swing.JTextArea))
 (def neighbors [[-1 -1] ])
@@ -52,7 +52,10 @@
         (.add text-area (. java.awt.BorderLayout CENTER))
         (.add (create-start-button) (. java.awt.BorderLayout SOUTH))))))
 
+<<<<<<< TREE
 (def frame (create-gof-frame pres-area))
+
+(defn transform-row-to-vec [row] 
 
 (defn count-alive-neighbors [board x y])
   
