@@ -4,6 +4,14 @@
 (def pres-area (new javax.swing.JTextArea))
 (def neighbors [[-1 -1] ])
 
+
+(def board [[:dead :dead :alive :dead :dead]
+            [:dead :dead :alive :dead :dead]
+            [:dead :dead :alive :dead :dead]
+            [:dead :dead :alive :dead :dead]
+            [:dead :dead :alive :dead :dead]
+            [:dead :dead :alive :dead :dead]])
+
 (defn set-text [text]
   (.setText pres-area text))
 
@@ -14,16 +22,18 @@
   (vec (repeat size-y (vec (for [x (range size-x)] :dead)))))
 
 (defn generate-row-string [to-print]
-  (reduce (fn [x y] (.concat x y))
-          (map  (fn [x] (.concat 
-                          (if (= :dead x)
-                            "_"
-                            "*" " ")) 
-               to-print)))
+  (->> to-print
+       (map (fn [x] 
+              (.concat 
+                (if (= :dead x)
+                  "_"
+                  "*") " ")))
+       (reduce (fn [x y] (.concat x y)))))
 
 (defn print-2d-vector [to-print]
-  (reduce (fn [x y] (.concat(.concat x "\n") y))
-          (map generate-row-string to-print)))
+  (->> to-print
+    (map generate-row-string)
+    (reduce (fn [x y] (.concat(.concat x "\n") y)))))
 
 (defn create-frame [title size-x size-y]
   (doto(new javax.swing.JFrame)
@@ -52,13 +62,9 @@
         (.add text-area (. java.awt.BorderLayout CENTER))
         (.add (create-start-button) (. java.awt.BorderLayout SOUTH))))))
 
-<<<<<<< TREE
+
 (def frame (create-gof-frame pres-area))
 
-(defn transform-row-to-vec [row] 
-
-(defn count-alive-neighbors [board x y])
-  
 (defn one-if-alive [cell]
   (if (= :alive cell)
     1
@@ -69,4 +75,11 @@
     [(+ cell-x x)  (+ cell-y y)]))
   
  (defn count-alive-neighbors [cell-x cell-y board]
-   (map 
+   (->> (find-neighbor-indices cell-x cell-y)
+        (map (fn [position] (get-in board position)))
+        (map one-if-alive)
+        (reduce +)))
+ 
+; (defn calculate-new-board [board]
+;   (for [x (.size board) y (.size (get board 0))])) 
+;        
