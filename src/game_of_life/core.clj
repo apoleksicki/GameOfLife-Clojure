@@ -1,9 +1,10 @@
 (ns game-of-life.core
-  (:use clojure.core clojure.repl))
+  (:use clojure.core clojure.repl clojure.test, clojure.string))
 
 (def pres-area (new javax.swing.JTextArea))
 (def neighbors [[-1 -1] ])
 
+(def vector-string "_ _ _ _ _ \n_ _ _ _ _ \n_ _ * _ _ \n_ _ * _ _ \n_ _ * _ _ \n_ _ _ _ _ ")
 
 (def board [[:dead :dead :dead  :dead :dead]
             [:dead :dead :dead :dead :dead]
@@ -71,7 +72,7 @@
     0)) 
  
 (defn find-neighbor-indices [cell-x cell-y]
-  (for [x [-1 0 1] y [-1 0 1]:when  (not (= x y))] 
+  (for [x [-1 0 1] y [-1 0 1] :when (not (and (= 0 x) (= 0 y)))] 
     [(+ cell-x x)  (+ cell-y y)]))
   
  (defn count-alive-neighbors [cell-x cell-y board]
@@ -102,4 +103,5 @@
                 (handle-alive alive-neighbors)
                 (handle-dead alive-neighbors))))))))
 
+(defn string-to-vector [to-convert])
         
