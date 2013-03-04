@@ -79,6 +79,17 @@
         (map (fn [position] (get-in board position)))
         (map one-if-alive)
         (reduce +)))
+
+(defn handle-alive [amount-of-neighbors]
+  (if (or (= 2 amount-of-neighbors) (= 3 amount-of-neighbors))
+    :alive
+    :dead))
+
+(defn handle-dead [amount-of-neighbors]
+  (if  (= 3 amount-of-neighbors)
+    :alive
+    :dead))
+
  
  (defn calculate-new-board [board]
    (vec (for [x (range (.size board))]
@@ -91,13 +102,4 @@
                 (handle-alive alive-neighbors)
                 (handle-dead alive-neighbors))))))))
 
-(defn handle-alive [amount-of-neighbors]
-  (if (or (= 2 amount-of-neighbors) (= 3 amount-of-neighbors))
-    :alive
-    :dead))
-
-(defn handle-dead [amount-of-neighbors]
-  (if  (= 3 amount-of-neighbors)
-    :alive
-    :dead))
         
