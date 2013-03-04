@@ -1,16 +1,16 @@
 (ns game-of-life.core
-  (:use clojure.core clojure.repl ))
+  (:use clojure.core clojure.repl))
 
 (def pres-area (new javax.swing.JTextArea))
 (def neighbors [[-1 -1] ])
 
 
-(def board [[:dead :dead :alive :dead :dead]
+(def board [[:dead :dead :dead  :dead :dead]
+            [:dead :dead :dead :dead :dead]
             [:dead :dead :alive :dead :dead]
             [:dead :dead :alive :dead :dead]
             [:dead :dead :alive :dead :dead]
-            [:dead :dead :alive :dead :dead]
-            [:dead :dead :alive :dead :dead]])
+            [:dead :dead :dead :dead :dead]])
 
 (defn set-text [text]
   (.setText pres-area text))
@@ -80,6 +80,24 @@
         (map one-if-alive)
         (reduce +)))
  
-; (defn calculate-new-board [board]
-;   (for [x (.size board) y (.size (get board 0))])) 
-;        
+ (defn calculate-new-board [board]
+   (vec (for [x (range (.size board))]
+     (vec
+       (for [y (range (.size (get board 0)))]
+        (let [alive-neighbors (count-alive-neighbors x y board)
+              element (get-in board [x y])]
+          (print x y)
+              (if (= :alive  element)
+                (handle-alive alive-neighbors)
+                (handle-dead alive-neighbors))))))))
+
+(defn handle-alive [amount-of-neighbors]
+  (if (or (= 2 amount-of-neighbors) (= 3 amount-of-neighbors))
+    :alive
+    :dead))
+
+(defn handle-dead [amount-of-neighbors]
+  (if  (= 3 amount-of-neighbors)
+    :alive
+    :dead))
+        
