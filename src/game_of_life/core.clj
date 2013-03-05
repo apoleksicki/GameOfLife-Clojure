@@ -44,6 +44,19 @@
     (on-action event
                (.append pres-area "foo"))))
 
+(def running false)
+
+(def pause 200)
+
+(defn run-gof [pres-area]
+  (->> (.getText pres-area)
+       (string-to-vector)
+       (calculate-new-board)
+       (.setText pres-area))
+  (Thread/sleep pause)
+  (if running
+    (run-gof pres-area)))      
+ 
 (defn create-gof-frame [text-area]
   (doto (create-frame "Game of life" 200 200)
     (.add 
