@@ -1,5 +1,5 @@
 (ns game-of-life.core
-  (:use clojure.core clojure.repl clojure.test, clojure.string))
+  (:use clojure.core clojure.repl [clojure.string :only (split)]))
 
 (def pres-area (new javax.swing.JTextArea))
 (def neighbors [[-1 -1] ])
@@ -103,5 +103,15 @@
                 (handle-alive alive-neighbors)
                 (handle-dead alive-neighbors))))))))
 
-(defn string-to-vector [to-convert])
+(defn string-to-vector [to-convert]
+  (->> (.split vector-string "\n")
+       (map (fn [line] (.split line " ")))
+       (map (fn [line] 
+              (->> (map (fn [line-element]
+                          (if (.equals "_" line-element)
+                            :dead
+                            :alive)) 
+                        line)
+                   (vec))))
+       (vec)))
         
