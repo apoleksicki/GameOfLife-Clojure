@@ -2,16 +2,6 @@
   (:use clojure.core clojure.repl [clojure.string :only (split)]))
 
 (def pres-area (new javax.swing.JTextArea))
-(def neighbors [[-1 -1] ])
-
-(def vector-string "_ _ _ _ _ \n_ _ _ _ _ \n_ _ * _ _ \n_ _ * _ _ \n_ _ * _ _ \n_ _ _ _ _ ")
-
-(def board [[:dead :dead :dead  :dead :dead]
-            [:dead :dead :dead :dead :dead]
-            [:dead :dead :alive :dead :dead]
-            [:dead :dead :alive :dead :dead]
-            [:dead :dead :alive :dead :dead]
-            [:dead :dead :dead :dead :dead]])
 
 (defn set-text [text]
   (.setText pres-area text))
@@ -54,8 +44,6 @@
     (on-action event
                (.append pres-area "foo"))))
 
-      
- 
 (defn create-gof-frame [text-area]
   (doto (create-frame "Game of life" 200 200)
     (.add 
@@ -104,7 +92,7 @@
                 (handle-dead alive-neighbors))))))))
 
 (defn string-to-vector [to-convert]
-  (->> (.split vector-string "\n")
+  (->> (.split to-convert "\n")
        (map (fn [line] (.split line " ")))
        (map (fn [line] 
               (->> (map (fn [line-element]

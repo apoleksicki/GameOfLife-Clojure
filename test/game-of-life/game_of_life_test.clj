@@ -9,6 +9,15 @@
    [:dead :dead :dead :dead :dead]
    [:dead :dead :dead :dead :dead]])
 
+(def vector-string "_ _ _ _ _ \n_ _ _ _ _ \n_ _ * _ _ \n_ _ * _ _ \n_ _ * _ _ \n_ _ _ _ _ ")
+
+(def board [[:dead :dead :dead  :dead :dead]
+            [:dead :dead :dead :dead :dead]
+            [:dead :dead :alive :dead :dead]
+            [:dead :dead :alive :dead :dead]
+            [:dead :dead :alive :dead :dead]
+            [:dead :dead :dead :dead :dead]])
+
 (defn foo-test []
   (is (= 4 (+ 2 2)) "Two plus two should be 4"))
 
