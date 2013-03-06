@@ -105,19 +105,25 @@
   (Thread/sleep pause)
     run-gof pres-area)
 
-(defn create-start-button []
+(defn create-start-button [pres-area]
   (doto (new javax.swing.JButton "Start")
     (on-action event
-               (.append pres-area "foo"))))
+               (run-gof pres-area))))
 
 (defn create-gof-frame [text-area]
   (doto (create-frame "Game of life" 200 200)
     (.add 
       (doto (create-panel (new java.awt.BorderLayout))
         (.add text-area (. java.awt.BorderLayout CENTER))
-        (.add (create-start-button) (. java.awt.BorderLayout SOUTH))))))
+        (.add (create-start-button text-area) (. java.awt.BorderLayout SOUTH))))))
 
-(def frame (create-gof-frame pres-area))
+(def frame (create-gof-frame (create-2d-vec 200 200)))
+
+(defn start-app []
+  (let [pres-area (new javax.swing.JTextArea) board (create-2d-vec 200 200)]
+    (.setText pres-area (print-2d-vector board))
+    (-> (create-gof-frame pres-area)
+      (.setVisible true))))
 
 
  
