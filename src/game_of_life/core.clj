@@ -48,25 +48,6 @@
 
 (def pause 200)
 
-(defn run-gof [pres-area]
-  (->> (.getText pres-area)
-       (string-to-vector)
-       (calculate-new-board)
-       (.setText pres-area))
-  (Thread/sleep pause)
-  (if running
-    (run-gof pres-area)))      
- 
-(defn create-gof-frame [text-area]
-  (doto (create-frame "Game of life" 200 200)
-    (.add 
-      (doto (create-panel (new java.awt.BorderLayout))
-        (.add text-area (. java.awt.BorderLayout CENTER))
-        (.add (create-start-button) (. java.awt.BorderLayout SOUTH))))))
-
-
-(def frame (create-gof-frame pres-area))
-
 (defn one-if-alive [cell]
   (if (= :alive cell)
     1
@@ -115,4 +96,28 @@
                         line)
                    (vec))))
        (vec)))
-        
+
+(defn run-gof [pres-area]
+  (->> (.getText pres-area)
+       (string-to-vector)
+       (calculate-new-board)
+       (.setText pres-area))
+  (Thread/sleep pause)
+    run-gof pres-area)
+
+(defn create-start-button []
+  (doto (new javax.swing.JButton "Start")
+    (on-action event
+               (.append pres-area "foo"))))
+
+(defn create-gof-frame [text-area]
+  (doto (create-frame "Game of life" 200 200)
+    (.add 
+      (doto (create-panel (new java.awt.BorderLayout))
+        (.add text-area (. java.awt.BorderLayout CENTER))
+        (.add (create-start-button) (. java.awt.BorderLayout SOUTH))))))
+
+(def frame (create-gof-frame pres-area))
+
+
+ 
