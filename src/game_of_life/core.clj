@@ -1,6 +1,8 @@
 (ns game-of-life.core
   (:use clojure.core clojure.repl [clojure.string :only (split)]))
 
+(def size 10)
+
 (def pres-area (new javax.swing.JTextArea))
 
 (defn set-text [text]
@@ -111,16 +113,16 @@
                (run-gof pres-area))))
 
 (defn create-gof-frame [text-area]
-  (doto (create-frame "Game of life" 200 200)
+  (doto (create-frame "Game of life" size size)
     (.add 
       (doto (create-panel (new java.awt.BorderLayout))
         (.add text-area (. java.awt.BorderLayout CENTER))
         (.add (create-start-button text-area) (. java.awt.BorderLayout SOUTH))))))
 
-(def frame (create-gof-frame (create-2d-vec 200 200)))
+(def frame (create-gof-frame (create-2d-vec size size)))
 
 (defn start-app []
-  (let [pres-area (new javax.swing.JTextArea) board (create-2d-vec 200 200)]
+  (let [pres-area (new javax.swing.JTextArea) board (create-2d-vec size size)]
     (.setText pres-area (print-2d-vector board))
     (-> (create-gof-frame pres-area)
       (.setVisible true))))
